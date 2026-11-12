@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { Product } from '../../types';
 import { StorageService } from '../../services/storage';
+import { DbService } from '../../services/dbService';
 import { useLanguage } from '../../context/LanguageContext';
 import { useRouter } from '../../context/RouterContext';
 import { useCart } from '../../context/CartContext';
@@ -47,6 +48,7 @@ export const ProductDetail: React.FC = () => {
           setError('Product not found or currently unavailable.');
         } else {
           setProduct(data);
+          DbService.trackProductView(data.id);
         }
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : String(err);

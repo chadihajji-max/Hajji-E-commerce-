@@ -9,7 +9,8 @@ import {
   XCircle, 
   Layers, 
   Sparkles,
-  ArrowUpRight
+  ArrowUpRight,
+  Calendar
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useToast } from '../../context/ToastContext';
@@ -43,6 +44,7 @@ export const AdminBanners: React.FC = () => {
     image_url: PRESET_IMAGES[0].url,
     link_url: '#shein-deals',
     target_channel: 'all',
+    position: 'hero',
     sort_order: 1,
     is_active: true,
   });
@@ -78,6 +80,7 @@ export const AdminBanners: React.FC = () => {
         image_url: PRESET_IMAGES[0].url,
         link_url: '#catalog',
         target_channel: 'all',
+        position: 'hero',
         sort_order: banners.length + 1,
         is_active: true,
         created_at: new Date().toISOString(),
@@ -102,6 +105,9 @@ export const AdminBanners: React.FC = () => {
       image_url: formData.image_url.trim(),
       link_url: formData.link_url?.trim() || '#catalog',
       target_channel: formData.target_channel || 'all',
+      position: formData.position || 'hero',
+      start_date: formData.start_date || undefined,
+      end_date: formData.end_date || undefined,
       sort_order: Number(formData.sort_order) || 1,
       is_active: formData.is_active !== undefined ? formData.is_active : true,
       created_at: editingBanner ? editingBanner.created_at : new Date().toISOString(),
@@ -263,7 +269,7 @@ export const AdminBanners: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/30 to-transparent flex flex-col justify-end p-4 text-white">
                     <span className="text-[10px] uppercase font-mono tracking-wider bg-white/20 backdrop-blur-xs px-2 py-0.5 w-fit mb-1 border border-white/20">
-                      #{banner.sort_order} • Channel: {banner.target_channel.toUpperCase()}
+                      Position: {banner.position || 'hero'} • #{banner.sort_order}
                     </span>
                     <h4 className="font-bold text-sm sm:text-base leading-tight drop-shadow-xs">
                       {isRtl ? banner.title_ar : banner.title_en}
@@ -297,9 +303,12 @@ export const AdminBanners: React.FC = () => {
                         <ArrowUpRight className="w-3 h-3" />
                       </a>
                     </div>
-                    <div className="text-neutral-500 text-[11px]">
-                      {isRtl ? 'العنوان العربي:' : 'Arabic title:'} {banner.title_ar}
-                    </div>
+                    {banner.start_date && (
+                      <div className="text-neutral-500 text-[11px] flex items-center gap-1">
+                        <Calendar className="w-3 h-3 text-neutral-400" />
+                        <span>Active: {banner.start_date} to {banner.end_date || 'Ongoing'}</span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-neutral-100">
@@ -448,15 +457,17 @@ export const AdminBanners: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-xs font-semibold uppercase text-neutral-700 mb-1">
-                    {isRtl ? 'الرابط الموجه (Link URL)' : 'Target Link'}
+                    {isRtl ? 'موضع البانر' : 'Banner Position'}
                   </label>
-                  <input
-                    type="text"
-                    value={formData.link_url || '#'}
-                    onChange={(e) => setFormData({ ...formData, link_url: e.target.value })}
-                    placeholder="#shein-deals or #catalog"
-                    className="w-full px-3 py-2 border border-neutral-300 text-sm focus:border-neutral-900 outline-none font-mono text-xs"
-                  />
+                  <select
+                    value={formData.position || 'hero'}
+                    onChange={(e) => setFormData({ ...formData, position: e.target.value as any })}
+                    className="w-full px-3 py-2 border border-neutral-300 text-sm focus:border-neutral-900 outline-none"
+                  >
+                    <option value="hero">Hero Showcase</option>
+                    <option value="sidebar">Sidebar Spotlight</option>
+                    <option value="inline">Inline Banner</option>
+                  </select>
                 </div>
 
                 <div>
@@ -486,6 +497,45 @@ export const AdminBanners: React.FC = () => {
                     className="w-full px-3 py-2 border border-neutral-300 text-sm focus:border-neutral-900 outline-none"
                   />
                 </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-neutral-700 mb-1">
+                    {isRtl ? 'تاريخ البداية' : 'Start Date'}
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.start_date || ''}
+                    onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                    className="w-full px-3 py-2 border border-neutral-300 text-sm focus:border-neutral-900 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-neutral-700 mb-1">
+                    {isRtl ? 'تاريخ النهاية' : 'End Date'}
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.end_date || ''}
+                    onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                    className="w-full px-3 py-2 border border-neutral-300 text-sm focus:border-neutral-900 outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase text-neutral-700 mb-1">
+                  {isRtl ? 'الرابط الموجه (Link URL)' : 'Target Link'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.link_url || '#'}
+                  onChange={(e) => setFormData({ ...formData, link_url: e.target.value })}
+                  placeholder="#shein-deals or #catalog"
+                  className="w-full px-3 py-2 border border-neutral-300 text-sm focus:border-neutral-900 outline-none font-mono text-xs"
+                />
               </div>
 
               <div className="flex items-center gap-2 pt-2">

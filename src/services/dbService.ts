@@ -924,4 +924,12 @@ export class DbService {
       recentClicks: clicks.slice(0, 5),
     };
   }
+
+  static async trackProductView(productId: string) {
+    // Phase 11: Real-time analytics view tracking
+    // In a real Supabase setup, we would increment a 'views' column or insert into a 'product_views' table.
+    // For now, we simulate success as it doesn't block the UI.
+    console.log(`[Analytics] Tracked view for product: ${productId}`);
+    return true;
+  }
 }

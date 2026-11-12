@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Globe, Menu, X, Database, User, ShieldCheck } from 'lucide-react';
+import { ShoppingBag, Globe, Menu, X, Database, User, ShieldCheck, Search } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useCart } from '../../context/CartContext';
 import { useRouter } from '../../context/RouterContext';
@@ -61,6 +61,21 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSupabaseModal }) => {
             {t('admin')}
           </button>
         </nav>
+
+        {/* Search Bar - Phase 11 */}
+        <div className="hidden lg:flex flex-1 max-w-md relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+          <input
+            type="text"
+            placeholder={t('searchPlaceholder')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                navigate('catalog', { q: (e.target as HTMLInputElement).value });
+              }
+            }}
+            className="w-full pl-9 pr-4 py-2 bg-neutral-100 border-none rounded-full text-xs focus:ring-1 focus:ring-neutral-900 outline-none"
+          />
+        </div>
 
         {/* Zone 3: Primary Action & Utilities */}
         <div className="flex items-center gap-2.5 shrink-0">

@@ -186,6 +186,9 @@ export interface Banner {
   image_url: string;
   link_url?: string;
   target_channel: 'all' | 'shein' | 'direct';
+  position?: 'hero' | 'sidebar' | 'inline';
+  start_date?: string;
+  end_date?: string;
   is_active: boolean;
   sort_order: number;
   created_at: string;
@@ -292,6 +295,20 @@ export interface StoreSettings {
   support_email: string;
   free_shipping_threshold: number;
   maintenance_mode?: boolean;
+  logo_url?: string;
+  favicon_url?: string;
+  description_en?: string;
+  description_ar?: string;
+  phone?: string;
+  whatsapp?: string;
+  social_links?: {
+    instagram?: string;
+    twitter?: string;
+    facebook?: string;
+  };
+  default_language?: 'en' | 'ar';
+  theme_color?: string;
+  qr_code_url?: string;
 }
 
 export interface SupabaseConnectionStatus {
