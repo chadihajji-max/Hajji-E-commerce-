@@ -1,0 +1,6 @@
+{
+  "name": "Aura Commerce - Next-Gen E-Commerce & SHEIN Affiliate Platform",
+  "description": "Bilingual (Arabic & English) standalone e-commerce platform with storefront, admin dashboard, Supabase backend integration, and SHEIN affiliate engine.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
