@@ -50,6 +50,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     selectedSize?: string, 
     selectedColor?: string
   ) => {
+    if (product.is_shein_affiliate) {
+      showToast('SHEIN affiliate products redirect to external destination', 'info');
+      if (product.shein_affiliate_url) {
+        window.open(product.shein_affiliate_url, '_blank', 'noopener,noreferrer');
+      }
+      return;
+    }
+
     setItems((prev) => {
       const matchIndex = prev.findIndex(
         (i) => i.product.id === product.id && i.selectedSize === selectedSize
