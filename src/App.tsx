@@ -15,10 +15,12 @@ import { AdminAccessGuard } from './components/common/AdminAccessGuard';
 
 import { StoreHome } from './pages/storefront/StoreHome';
 import { StoreCatalog } from './pages/storefront/StoreCatalog';
+import { CategoriesPage } from './pages/storefront/CategoriesPage';
 import { ProductDetail } from './pages/storefront/ProductDetail';
 import { SheinAffiliateDeals } from './pages/storefront/SheinAffiliateDeals';
 import { CheckoutPage } from './pages/storefront/CheckoutPage';
 import { UserProfileView } from './pages/storefront/UserProfileView';
+import { StaticPageView } from './pages/storefront/StaticPageView';
 
 // Admin components & pages
 import { AdminSidebar } from './components/admin/AdminSidebar';
@@ -166,10 +168,13 @@ const MainLayout: React.FC = () => {
       <main className="flex-1">
         {currentRoute === 'home' && <StoreHome />}
         {currentRoute === 'catalog' && <StoreCatalog />}
+        {currentRoute === 'categories' && <CategoriesPage />}
+        {currentRoute === 'category-detail' && <CategoriesPage />}
         {currentRoute === 'product-detail' && <ProductDetail />}
         {currentRoute === 'shein-deals' && <SheinAffiliateDeals />}
         {currentRoute === 'checkout' && <CheckoutPage />}
         {currentRoute === 'profile' && <UserProfileView />}
+        {currentRoute === 'page' && <StaticPageView />}
       </main>
 
       <Footer />
